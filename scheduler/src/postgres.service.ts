@@ -9,6 +9,7 @@ const pool = new Pool({
 });
 
 const query = async (text, params):Promise<any[][]> => {
+    console.log(process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, process.env.POSTGRES_PORT, process.env.POSTGRES_DB);
     const client = await pool.connect();
     try {
         const result:QueryArrayResult<any[]> = await client.query(text, params);

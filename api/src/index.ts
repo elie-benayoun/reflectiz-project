@@ -1,7 +1,10 @@
 import express, {Express} from 'express';
 import { domainAnalysisRoutes } from './routes/domain-analysis.route';
+import saveApiRequest from './middleware/save-api-request';
 
 const app:Express = express();
+
+app.use(saveApiRequest);
 
 app.use("/domain-analysis", domainAnalysisRoutes)
 

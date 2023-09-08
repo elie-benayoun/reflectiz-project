@@ -12,7 +12,8 @@ services:
     volumes:
       - ./init-scripts:/docker-entrypoint-initdb.d
       - postgres-data:/var/lib/postgresql/data
-  web:
+      
+  api:
     build:
       context: ./api
       dockerfile: Dockerfile
@@ -23,6 +24,35 @@ services:
       - POSTGRES_PASSWORD=elieb
       - POSTGRES_DB=domain-analysis
       - POSTGRES_PORT=5432
+    depends_on:
+      - postgres
+
+  rabbitmq3:
+    image: rabbitmq:3.8-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=elie
+      - RABBITMQ_DEFAULT_PASS=elieb
+    depends_on:
+      - postgres
+
+  scheduler:
+    build:
+      context: ./scheduler
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_USER=elie
+      - POSTGRES_PASSWORD=elieb
+      - POSTGRES_DB=domain-analysis
+      - POSTGRES_PORT=5432
+      - RABBITMQ_USER=elie
+      - RABBITMQ_PASSWORD=elieb
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_QUEUE=domain-analysis-queue
+    depends_on:
+      - rabbitmq3
       
 volumes:
   postgres-data:

@@ -2,7 +2,8 @@
 CREATE TABLE IF NOT EXISTS domains (
     id serial PRIMARY KEY,
     domain TEXT NOT NULL,
-    last_analyzed TIMESTAMP  
+    last_analyzed TIMESTAMP,
+    in_progress BOOLEAN DEFAULT FALSE
 );
 
 -- Insert initial data
@@ -22,5 +23,6 @@ CREATE TABLE IF NOT EXISTS api_request_history (
     path TEXT NOT NULL,
     query JSON,
     body JSON,
-    origin TEXT
+    origin TEXT,
+    run_at TIMESTAMP
 );
