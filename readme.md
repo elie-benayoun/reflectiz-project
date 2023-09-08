@@ -57,5 +57,10 @@ Here is a summary of all the relations between the different services.
 
 ![services relations](./services-relations.png)
 
+## Run The Project
 
+To run the project simply tun the following command:  
+```bash
+    docker-compose up --build
+```
 
