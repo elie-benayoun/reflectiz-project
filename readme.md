@@ -24,23 +24,23 @@ It includes 3 tables:
 
 ## API service
 
-The source code of the API is a Node Ts application running with Express to set up the API.
-The structure of the API is basic: The express api is made of routes talking with controllers, these controllers use different services and data models.
-This API will communicate with the postgress database to send and receive data.
-2 Requests are available in the API:
+The source code of the API is a Node Ts application running with Express to set up the API.  
+The structure of the API is basic: The express api is made of routes talking with controllers, these controllers use different services and data models.  
+This API will communicate with the postgress database to send and receive data.  
+2 Requests are available in the API:  
 * GET http://localhost:8080/domain-analysis?domain={domain}, to get the last analysis processed on a specfic domain (if the deomain is not in the list for analysis it will be added to it)
 * POST http://localhost:8080/domain-analysis?domain={domain}, to add a domain to the list for analysis, be careful you cannot add a domain that was already previously added
 
 ## RabbitMq3
 
-This service is a simple RabbitMQ instance use by the next services to communicate between them, the usage of such a service is necessary since the amount of domain analysis to run can be high and we don't want to overload the next services or the API calls they are going to make
+This service is a simple RabbitMQ instance use by the next services to communicate between them, the usage of such a service is necessary since the amount of domain analysis to run can be high and we don't want to overload the next services or the API calls they are going to make.  
 
 ## Scheduler
 
 This service is a scheduler that will run every ten seconds to check if some domains need a new analysis.  
-By default for a specific domain a new analysis will be run **every 31 days**, this interval can be edited in the environement variable **SECOND_ANLYSIS_INTERVAL** from this service (as the number of seconds between two analysis of the same domain) 
+By default for a specific domain a new analysis will be run **every 31 days**, this interval can be edited in the environement variable **SECOND_ANLYSIS_INTERVAL** from this service (as the number of seconds between two analysis of the same domain)   
 If some domains are found they will be sent to the RabbitMq Queue defined previously and wait for analysis.  
-This service will use the RabbitMQ3 service and the Postgress Service
+This service will use the RabbitMQ3 service and the Postgress Service.  
 
 ## Launch Analysis History
 
@@ -49,11 +49,11 @@ Each message will be a new analysis to run and save for a specific domain.
 The service will retrieve information from the domain check endpoint of the whois API and the virus total API.  
 Once the analysis ran and the data was collected it will be saved in the postgres database under the table **domains_analysis_history**.  
 Note that this service will not proceed more than 10 message concurently (in order to avoid errors from the Whois and Virus total APis for too much request, code 429) to update this limit update the environement variable **CONCURENT_MESSAGE_HANDLING** of this service.  
-This service will use the RabbitMq3 service and the postgres service
+This service will use the RabbitMq3 service and the postgres service.  
 
 ## Relation between services
 
-Here is a summary of all the relations between the different services
+Here is a summary of all the relations between the different services.  
 
 ![services relations](./services-relations.png)
 
