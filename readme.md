@@ -28,12 +28,12 @@ The source code of the API is a Node Ts application running with Express to set 
 The structure of the API is basic: The express api is made of routes talking with controllers, these controllers use different services and data models.  
 This API will communicate with the postgress database to send and receive data.  
 2 Requests are available in the API:  
-* GET http://localhost:8080/domain-analysis?domain={domain}, to get the last analysis processed on a specfic domain (if the deomain is not in the list for analysis it will be added to it)
-* POST http://localhost:8080/domain-analysis?domain={domain}, to add a domain to the list for analysis, be careful you cannot add a domain that was already previously added
+* GET http://localhost:8080/domain-analysis?domain={domain}, to get the last analysis processed on a specfic domain (if the domain is not in the list for analysis it will be added to it)
+* POST http://localhost:8080/domain-analysis?domain={domain}, to add a domain to the list for analysis, be careful you cannot add a domain that was already previously added.
 
 ## RabbitMq3
 
-This service is a simple RabbitMQ instance use by the next services to communicate between them, the usage of such a service is necessary since the amount of domain analysis to run can be high and we don't want to overload the next services or the API calls they are going to make.  
+This service is a simple RabbitMQ instance used by the next services to communicate between them, the usage of such a service is necessary since the amount of domain analysis to run can be high and we don't want to overload the next services or the API calls they are going to make.  
 
 ## Scheduler
 

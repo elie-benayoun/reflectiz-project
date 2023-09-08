@@ -55,7 +55,7 @@ services:
       - RABBITMQ_PASSWORD=elieb
       - RABBITMQ_PORT=5672
       - RABBITMQ_QUEUE=domain-analysis-queue
-      - SECOND_ANLYSIS_INTERVAL=60
+      - SECOND_ANLYSIS_INTERVAL=2678400
     depends_on:
       - rabbitmq3
     restart: on-failure
