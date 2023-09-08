@@ -1,4 +1,4 @@
--- Create a table
+-- Create domains table
 CREATE TABLE IF NOT EXISTS domains (
     id serial PRIMARY KEY,
     domain TEXT NOT NULL,
@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS domains (
     in_progress BOOLEAN DEFAULT FALSE
 );
 
--- Insert initial data
+-- Create domains_analysis_history table
 CREATE TABLE IF NOT EXISTS domains_analysis_history (
     id serial PRIMARY KEY,
     domain_id INTEGER NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS domains_analysis_history (
     virus_total_data JSON
 );
 
--- Insert initial data
+-- Create api_request_history table
 CREATE TABLE IF NOT EXISTS api_request_history (
     id serial PRIMARY KEY,
     method TEXT NOT NULL,

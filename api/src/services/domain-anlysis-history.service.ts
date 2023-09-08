@@ -1,6 +1,11 @@
 import IDomainAnalysisHistory from "../models/domain-analysis-history.model";
 import postgresService from "./postgres.service";
 
+/**
+ * Get the last domain analysis data avilable for a specific domain id from the table domains_analysis_history
+ * @param domainId The domain id to get the analysis
+ * @returns the last domain analysis data available for a specific table 
+ */
 const getDomainAnalysisHistory = async (domainId: number):Promise<IDomainAnalysisHistory | null> => {
     const query = `
     SELECT 
@@ -17,17 +22,14 @@ const getDomainAnalysisHistory = async (domainId: number):Promise<IDomainAnalysi
     const params = [domainId];
     const queryResult = await postgresService.query(query, params);
     if (queryResult.length === 0) return null;
-    console.log(queryResult[0])
     return formatDomainAnalysisHistory(queryResult[0]);
 }
 
 const formatDomainAnalysisHistory = (postgressRow: {[key:string]:any}): IDomainAnalysisHistory => {
     return {
-        id: postgressRow["id"],
-        domain_id: postgressRow["domain_id"],
         run_at: postgressRow["run_at"],
-        whois_data: JSON.parse(postgressRow["whois_data"]),
-        virus_total_data: JSON.parse(postgressRow["virus_total_data"])
+        whois_data: postgressRow["whois_data"],
+        virus_total_data: postgressRow["virus_total_data"]
     }
 }
 

@@ -4,8 +4,10 @@ import saveApiRequest from './middleware/save-api-request';
 
 const app:Express = express();
 
+//add the save api request middleware to save the api request history
 app.use(saveApiRequest);
 
+//domain analysis routes
 app.use("/domain-analysis", domainAnalysisRoutes)
 
 //catch all other routes
@@ -20,6 +22,6 @@ app.use((err, req, res, next) => {
 })
 
 
-app.listen(8080, () => {
+app.listen(process.env.PORT || 8080, () => {
     console.log("Server started on port 8080");
 })

@@ -1,5 +1,6 @@
 import { Pool, QueryArrayResult } from 'pg';
 
+//define postgress pool
 const pool = new Pool({
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
@@ -8,8 +9,13 @@ const pool = new Pool({
     database: process.env.POSTGRES_DB,
 });
 
+/**
+ * 
+ * @param text The query to execute
+ * @param params The parameters to pass to the query
+ * @returns The query result
+ */
 const query = async (text, params):Promise<any[][]> => {
-    console.log(process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, process.env.POSTGRES_PORT, process.env.POSTGRES_DB);
     const client = await pool.connect();
     try {
         const result:QueryArrayResult<any[]> = await client.query(text, params);

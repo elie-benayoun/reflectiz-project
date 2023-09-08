@@ -1,7 +1,11 @@
 import IDomain from "../models/domain.model";
 import postgresService from "./postgres.service"
 
-
+/**
+ * Get the domain data for a single domain from the domains table
+ * @param domain The domain to retrieve
+ * @returns 
+ */
 const getSingleDomain =  async (domain:string): Promise<IDomain | null> => {
     let query = `
     SELECT 
@@ -15,8 +19,6 @@ const getSingleDomain =  async (domain:string): Promise<IDomain | null> => {
     let params = [domain];
     let queryResult = await postgresService.query(query, params);
     if (queryResult.length === 0) return null;
-    console.log("Query Result", queryResult[0])
-    console.log("Formated Result", formateSingleDomain(queryResult[0]))
     return formateSingleDomain(queryResult[0]);
 }
 
@@ -29,9 +31,13 @@ const formateSingleDomain = (postgressRow:{[key:string]:any}):IDomain => {
     }
 }
 
+/**
+ * Add a specific domain to the domains table
+ * @param domain domain to add to the domains table
+ */
 const addDomain = async (domain:string):Promise<void> => {
-    let query = `INSERT INTO domains (domain) VALUES ($1)`;
-    let params = [domain];
+    let query = `INSERT INTO domains (domain, in_progress) VALUES ($1, $2)`;
+    let params = [domain, false];
     await postgresService.query(query, params);
 }
 

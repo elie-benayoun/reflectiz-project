@@ -3,6 +3,15 @@ import helpers from "../helpers/helpers";
 import domainsService from "../services/domains.service";
 import domainAnlysisHistoryService from "../services/domain-anlysis-history.service";
 
+/**
+ * controller of the GET /domain-analysis endpoint
+ * It wil check if a domain was provided in the query parameter and check the validity of the domain
+ * It wil check if the domainn was previously added to the list for analysis (if not it will add it)
+ * It wil check if the domain was previously analyzed and return the analysis
+ * @param req Express request
+ * @param res Express Response
+ * @returns Express response
+ */
 const getDomainAnalysis = async (req: Request, res: Response) => {
     let domain = req?.query?.domain as string;
     
@@ -22,6 +31,13 @@ const getDomainAnalysis = async (req: Request, res: Response) => {
     return res.status(200).send(domainAnalysisHistory);
 }
 
+/**
+ * controller of the POST /domain-analysis endpoint
+ * It will add a valid domain to the list for analysis
+ * @param req Express request
+ * @param res Express Response
+ * @returns Express response
+ */
 const createDomainAnalysis = async (req: Request, res: Response) => {
     let domain = req?.query?.domain as string;
     

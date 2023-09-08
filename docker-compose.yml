@@ -12,6 +12,7 @@ services:
     volumes:
       - ./init-scripts:/docker-entrypoint-initdb.d
       - postgres-data:/var/lib/postgresql/data
+    restart: on-failure
       
   api:
     build:
@@ -26,6 +27,7 @@ services:
       - POSTGRES_PORT=5432
     depends_on:
       - postgres
+    restart: on-failure
 
   rabbitmq3:
     image: rabbitmq:3.8-management-alpine
@@ -37,6 +39,8 @@ services:
       - RABBITMQ_DEFAULT_PASS=elieb
     depends_on:
       - postgres
+    restart: on-failure
+
 
   scheduler:
     build:
@@ -51,8 +55,30 @@ services:
       - RABBITMQ_PASSWORD=elieb
       - RABBITMQ_PORT=5672
       - RABBITMQ_QUEUE=domain-analysis-queue
+      - SECOND_ANLYSIS_INTERVAL=60
     depends_on:
       - rabbitmq3
+    restart: on-failure
+
+  launch-analysis-history:
+    build:
+      context: ./launch-analysis-history
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_USER=elie
+      - POSTGRES_PASSWORD=elieb
+      - POSTGRES_DB=domain-analysis
+      - POSTGRES_PORT=5432
+      - RABBITMQ_USER=elie
+      - RABBITMQ_PASSWORD=elieb
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_QUEUE=domain-analysis-queue
+      - WHOIS_API_KEY=at_VwqXnzQleju3dAQfYt3y5sp8fLsSN
+      - VIRUS_TOTAL_API_KEY=c44c6010030cf274bb0954bcc60b0ab87015a2a893b1d1c70f7388cf1434b5d6
+      - CONCURENT_MESSAGE_HANDLING=10
+    depends_on:
+      - rabbitmq3
+    restart: on-failure
       
 volumes:
   postgres-data:
